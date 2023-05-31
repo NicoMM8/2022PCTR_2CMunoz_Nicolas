@@ -32,8 +32,8 @@ public class ActividadAliada implements Runnable {
 			Thread.sleep(new Random().nextInt(5000) + 1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			}
 		}
-	}
 	
-}
+	}
 }
