@@ -1,4 +1,5 @@
-
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -10,12 +11,14 @@
  */
 
 class ActividadAliada implements Runnable {
-    private final int tipoEnemigo;
+    private final int tipoAliado;
     private final Juego juego;
+    private final Random random;
 
-    public ActividadAliada(int tipoEnemigo, Juego juego) {
-        this.tipoEnemigo = tipoEnemigo;
+    public ActividadAliada(int tipoAliado, Juego juego) {
+        this.tipoAliado = tipoAliado;
         this.juego = juego;
+        this.random = new Random();
     }
 
 	/**
@@ -27,14 +30,15 @@ class ActividadAliada implements Runnable {
 	
     @Override
     public void run() {
-        while (true) {
-            juego.eliminarEnemigo(tipoEnemigo);
-
-            try {
-                Thread.sleep(2000); // Tiempo de espera entre eliminaciones
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            while (true) {
+                TimeUnit.SECONDS.sleep(random.nextInt(3) + 1); // Simular tiempo de inactividad
+                juego.generarEnemigo(tipoAliado);
+                TimeUnit.SECONDS.sleep(random.nextInt(3) + 1); // Simular tiempo de actividad
+                juego.eliminarEnemigo(tipoAliado);
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
