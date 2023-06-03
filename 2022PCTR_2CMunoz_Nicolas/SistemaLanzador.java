@@ -14,7 +14,7 @@ public class SistemaLanzador {
 		Juego juego = new Juego(numTiposEnemigos, numEnemigosPorTipo, numEnemigosSimultaneos);
 		
 		//Generar hilos de actividad enemiga y actividad aliada para cada tipo de enemigo
-		int (int i = 1; i <= numTiposEnemigos; i++) {
+		for (int i = 1; i <= numTiposEnemigos; i++) {
 			Thread enemigoThread = new Thread(new ActividadEnemiga(juego, i));
 			Thread aliadoThread = new Thread(new ActividadAliada(juego, i));
 			enemigoThread.start();
