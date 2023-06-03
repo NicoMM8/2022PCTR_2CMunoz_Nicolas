@@ -1,3 +1,4 @@
+import java.util.Random;
 /**
  *
  * Representa la ctividad aliada en el juego.
@@ -8,13 +9,13 @@
  */
 
 public class ActividadAliada implements Runnable {
-	private  final Juego juego;
-	private final tipoEnemigo;
-	
-	public ActividadAliada(Juego juego, int tipoEnemigo) {
-		this.juego = juego;
-		this.tipoEnemigo = tipoEnemigo;
-	}
+    private final int tipoEnemigo;
+    private final Juego juego;
+
+    public ActividadAliada(int tipoEnemigo, Juego juego) {
+        this.tipoEnemigo = tipoEnemigo;
+        this.juego = juego;
+    }
 	
 	/**
 	 * Método run que se ejecuta cuando inicia el hilo de la actividad aliada.
@@ -23,17 +24,27 @@ public class ActividadAliada implements Runnable {
 	 * durante un tiempo aleatorio antes de intentar eliminar otro enemigo
 	 */
 	
-	@Override
-	public void run() {
-		while (true) {
-		juego.eliminarEnemigo(tipoEnemigo);
-		try {
-			// Esperar un tiempo aleatorio antes de intentar eliminar otro enemigo
-			Thread.sleep(new Random().nextInt(5000) + 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			}
-		}
-	
-	}
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                // Realizar la actividad aliada aquí
+
+                // Esperar un tiempo aleatorio
+                int tiempo = generarTiempoAleatorio();
+                Thread.sleep(tiempo);
+
+                // Eliminar el enemigo correspondiente
+                juego.eliminarEnemigo(tipoEnemigo);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int generarTiempoAleatorio() {
+        Random random = new Random();
+        return random.nextInt(5) + 1;
+    }
 }
