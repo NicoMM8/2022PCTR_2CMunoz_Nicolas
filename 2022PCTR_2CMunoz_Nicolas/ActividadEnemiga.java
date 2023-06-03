@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  * Representa la actividad enemiga en el juego.
@@ -24,25 +26,15 @@ public class ActividadEnemiga implements Runnable {
 	
     @Override
     public void run() {
-        while (true) {
-            try {
-                // Realizar la actividad enemiga aquí
-
-                // Esperar un tiempo aleatorio
-                int tiempo = generarTiempoAleatorio();
-                Thread.sleep(tiempo);
-
-                // Generar un nuevo enemigo del tipo correspondiente
-                juego.generarEnemigo(tipoEnemigo);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private int generarTiempoAleatorio() {
         Random random = new Random();
-        return random.nextInt(5) + 1;
+        int tiempoActividad = random.nextInt(5000) + 1000;
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(tiempoActividad);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        juego.generarEnemigo(tipoEnemigo);
     }
 }

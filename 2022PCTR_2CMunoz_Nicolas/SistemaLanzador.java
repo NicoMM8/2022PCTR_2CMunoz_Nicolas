@@ -9,16 +9,14 @@
 public class SistemaLanzador {
     public static void main(String[] args) {
         int numTiposEnemigos = 3;
-        int numEnemigosPorTipo = 5;
-        int maxEnemigosSimultaneos = 10;
-
-        Juego juego = new Juego(numTiposEnemigos, numEnemigosPorTipo, maxEnemigosSimultaneos);
-
-        // Lanzar hilos de ActividadEnemiga y ActividadAliada por pares
-        for (int tipoEnemigo = 1; tipoEnemigo <= numTiposEnemigos; tipoEnemigo++) {
+        final int maxEnemigos = 10; // Definición de la constante maxEnemigos
+        
+        Juego juego = new Juego(numTiposEnemigos, maxEnemigos);
+        
+        for (int tipoEnemigo = 0; tipoEnemigo < numTiposEnemigos; tipoEnemigo++) {
             Thread enemigoThread = new Thread(new ActividadEnemiga(tipoEnemigo, juego));
             Thread aliadoThread = new Thread(new ActividadAliada(tipoEnemigo, juego));
-
+            
             enemigoThread.start();
             aliadoThread.start();
         }
