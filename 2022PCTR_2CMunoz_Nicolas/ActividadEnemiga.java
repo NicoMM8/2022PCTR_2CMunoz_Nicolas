@@ -1,5 +1,3 @@
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -10,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * @author Nicolás Muñoz
  */
 
-public class ActividadEnemiga implements Runnable {
+class ActividadEnemiga implements Runnable {
     private final int tipoEnemigo;
     private final Juego juego;
 
@@ -26,15 +24,14 @@ public class ActividadEnemiga implements Runnable {
 	
     @Override
     public void run() {
-        Random random = new Random();
-        int tiempoActividad = random.nextInt(5000) + 1000;
+        while (true) {
+            juego.generarEnemigo(tipoEnemigo);
 
-        try {
-            TimeUnit.MILLISECONDS.sleep(tiempoActividad);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                Thread.sleep(1000); // Tiempo de espera entre generaciones
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        juego.generarEnemigo(tipoEnemigo);
     }
 }

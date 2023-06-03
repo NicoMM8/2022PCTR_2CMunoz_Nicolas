@@ -9,7 +9,7 @@
  *@author Nicolás Muñoz
  */
 
-public class ActividadAliada implements Runnable {
+class ActividadAliada implements Runnable {
     private final int tipoEnemigo;
     private final Juego juego;
 
@@ -17,7 +17,7 @@ public class ActividadAliada implements Runnable {
         this.tipoEnemigo = tipoEnemigo;
         this.juego = juego;
     }
-	
+
 	/**
 	 * Método run que se ejecuta cuando inicia el hilo de la actividad aliada.
 	 * Se intenta eliminar enemigos del tipo especificado en un bucle infinito.
@@ -27,6 +27,14 @@ public class ActividadAliada implements Runnable {
 	
     @Override
     public void run() {
-        juego.eliminarEnemigo(tipoEnemigo);
+        while (true) {
+            juego.eliminarEnemigo(tipoEnemigo);
+
+            try {
+                Thread.sleep(2000); // Tiempo de espera entre eliminaciones
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
