@@ -1,3 +1,5 @@
+import java.util.Hashtable;
+import java.util.Random;
 
 /**
  *
@@ -7,25 +9,30 @@
  */
 
 public class SistemaLanzador {
-    public static void main(String[] args) {
-        int numTiposEnemigos = 4;
-        int maxEnemigos = 10;
+	public static void main(String[] args) {
+        Juego juego = new Juego();
 
-        Juego juego = new Juego(numTiposEnemigos, maxEnemigos);
+        Thread generadorEnemigos = new Thread(() -> {
+            Random random = new Random();
+            while (true) {
+                try {
+                    int tipoEnemigo = random.nextInt(10);
+                    juego.generarEnemigo(tipoEnemigo);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        // Crear hilos para las actividades enemigas
-        for (int tipo = 0; tipo < numTiposEnemigos; tipo++) {
-            Runnable actividadEnemiga = new ActividadEnemiga(tipo, juego);
-            Thread hiloActividadEnemiga = new Thread(actividadEnemiga);
-            hiloActividadEnemiga.start();
-        }
+        Thread eliminadorEnemigos = new Thread(() -> {
+            Random random = new Random();
+            while (true) {
+                int tipoEnemigo = random.nextInt(10);
+                juego.eliminarEnemigo(tipoEnemigo);
+            }
+        });
 
-        // Crear hilos para las actividades aliadas
-        for (int tipo = 0; tipo < numTiposEnemigos; tipo++) {
-            Runnable actividadAliada = new ActividadAliada(tipo, juego);
-            Thread hiloActividadAliada = new Thread(actividadAliada);
-            hiloActividadAliada.start();
-        }
+        generadorEnemigos.start();
+        eliminadorEnemigos.start();
     }
-}
-
+	}
