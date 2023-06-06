@@ -10,7 +10,7 @@ import java.util.Random;
 public class SistemaLanzador {
 	public static void main(String[] args) {
 		//Crear instancia del juego
-        Juego juego = new Juego();
+		Juego juego = Juego.getInstancia();
         
         //Crear un hilo para generar enemigos
         Thread generadorEnemigos = new Thread(() -> {
